@@ -26,6 +26,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import { Navigation } from "react-native-navigation";
+
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
@@ -90,6 +92,14 @@ const App: () => Node = () => {
   );
 };
 
+App.options = {
+  topBar: {
+    title: {
+      text: '首頁'
+    }
+  }
+}
+
 const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
@@ -107,6 +117,23 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+});
+
+Navigation.registerComponent('Home', () => App);
+Navigation.events().registerAppLaunchedListener(() => {
+   Navigation.setRoot({
+     root: {
+       stack: {
+         children: [
+           {
+             component: {
+               name: 'Home'
+             }
+           }
+         ]
+       }
+     }
+  });
 });
 
 export default App;
