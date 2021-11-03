@@ -16,12 +16,12 @@ import {
   Text,
   useColorScheme,
   View,
+  SectionList,
 } from 'react-native';
 
 import {
   Colors,
   DebugInstructions,
-  Header,
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
@@ -54,6 +54,31 @@ const Section = ({children, title}): Node => {
   );
 };
 
+const DATA = [
+  {
+    title: "Main dishes",
+    data: ["Pizza", "Burger", "Risotto"]
+  },
+  {
+    title: "Sides",
+    data: ["French Fries", "Onion Rings", "Fried Shrimps"]
+  },
+  {
+    title: "Drinks",
+    data: ["Water", "Coke", "Beer"]
+  },
+  {
+    title: "Desserts",
+    data: ["Cheese Cake", "Ice Cream"]
+  }
+];
+
+const Item = ({ title }) => (
+  <View style={styles.item}>
+    <Text style={styles.title}>{title}</Text>
+  </View>
+);
+
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -64,30 +89,14 @@ const App: () => Node = () => {
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+      <SectionList
+        sections={DATA}
+        keyExtractor={(item, index) => item + index}
+        renderItem={({ item }) => <Item title={item} />}
+        renderSectionHeader={({ section: { title } }) => (
+          <Text style={styles.header}>{title}</Text>
+        )}
+      />
     </SafeAreaView>
   );
 };
@@ -117,6 +126,23 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  container: {
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
+    marginHorizontal: 16
+  },
+  item: {
+    backgroundColor: "#f9c2ff",
+    padding: 20,
+    marginVertical: 8
+  },
+  header: {
+    fontSize: 32,
+    backgroundColor: "#fff"
+  },
+  title: {
+    fontSize: 24
+  }
 });
 
 Navigation.registerComponent('Home', () => App);
