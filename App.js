@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -16,87 +16,130 @@ import {
   Text,
   useColorScheme,
   View,
-  SectionList,
+  TouchableOpacity,
+  ActivityIndicator,
+  FlatList,
 } from 'react-native';
 
 import {
   Colors,
-  DebugInstructions,
-  LearnMoreLinks,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
 import { Navigation } from "react-native-navigation";
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+const Item = ({ title, content, videoUrl, homeComponentId }) => (
+  <TouchableOpacity
+    onPress={() => Navigation.push(homeComponentId, {
+          component: {
+            name: 'Web',
+            options: {
+              topBar: {
+                title: {
+                  text: 'Web'
+                }
+              },
+            },
+            passProps: {
+              videoUrl: videoUrl
+            }
+          }
+        })}>
+    <View style={styles.item}>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{content}</Text>
     </View>
-  );
-};
-
-const DATA = [
-  {
-    title: "Main dishes",
-    data: ["Pizza", "Burger", "Risotto"]
-  },
-  {
-    title: "Sides",
-    data: ["French Fries", "Onion Rings", "Fried Shrimps"]
-  },
-  {
-    title: "Drinks",
-    data: ["Water", "Coke", "Beer"]
-  },
-  {
-    title: "Desserts",
-    data: ["Cheese Cake", "Ice Cream"]
-  }
-];
-
-const Item = ({ title }) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
+  </TouchableOpacity>
 );
 
-const App: () => Node = () => {
+const App: () => Node = (props) => {
+  // Style
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,    // fill the screen height
   };
+
+  const renderItem = ({ item }) => (
+    <Item title={item.date+ ' ' + item.time + ' ' + item.legislatorName + '\n' + item.typeName}
+          content={item.content}
+          videoUrl={item.videoUrl}
+          homeComponentId={homeComponentId}
+    />
+  );
+
+  // Data
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const homeComponentId = props.componentId;
+
+  const getMeetings = async () => {
+    const Papa = require('papaparse');
+    const csv = await fetch('https://data.ly.gov.tw/odw/usageFile.action?id=148&type=CSV&fname=148_1004CSV-1.csv');
+    const csvStr = await csv.text();
+    const result = Papa.parse(csvStr);
+
+    // generating indexes...
+    const resultArrays = result['data'];
+    const keyArray = resultArrays[0];
+    const dateIndex = keyArray.indexOf('meetingDate');
+    const timeIndex = keyArray.indexOf('meetingTime');
+    const typeNameIndex = keyArray.indexOf('meetingTypeName');
+    const contentIndex = keyArray.indexOf('meetingContent');
+    const legislatorNameIndex = keyArray.indexOf('legislatorName');
+    const areaNameIndex = keyArray.indexOf('areaName');
+    const speechStartTimeIndex = keyArray.indexOf('speechStartTime');
+    const speechRecordUrlIndex = keyArray.indexOf('speechRecordUrl');
+    const videoUrlIndex = keyArray.indexOf('videoUrl');
+
+    let data = Array();
+    // Start from latest; skip index 0 (key array)
+    for (let i = resultArrays.length - 1; i > 0; i--) {
+      const array = resultArrays[i];
+      const date = array[dateIndex];
+      const time = array[timeIndex];
+      const typeName = array[typeNameIndex];
+      const content = array[contentIndex];
+      const legislatorName = array[legislatorNameIndex];
+      const areaName = array[areaNameIndex];
+      const speechStartTime = array[speechStartTimeIndex];
+      const speechRecordurl = array[speechRecordUrlIndex];
+      const videoUrl = array[videoUrlIndex];
+      if (!legislatorName) {
+        continue;
+      }
+      const obj = { "date": date,
+                    "time": time,
+                    "typeName": typeName,
+                    "content": content,
+                    "legislatorName": legislatorName,
+                    "areaName": areaName,
+                    "speechStartTime": speechStartTime,
+                    "speechRecordurl": speechRecordurl,
+                    "videoUrl": videoUrl,
+                    "key": speechStartTime + legislatorName
+                  };
+      data.push(obj);
+    }
+
+    setData(data);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getMeetings();
+  }, []);
 
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <SectionList
-        sections={DATA}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => <Item title={item} />}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.header}>{title}</Text>
-        )}
-      />
+      {isLoading ? <ActivityIndicator/> : (
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.key}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -110,42 +153,28 @@ App.options = {
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
   container: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight,
-    marginHorizontal: 16
   },
   item: {
-    backgroundColor: "#f9c2ff",
+    backgroundColor: 'gainsboro',
     padding: 20,
-    marginVertical: 8
-  },
-  header: {
-    fontSize: 32,
-    backgroundColor: "#fff"
+    marginVertical: 8,
+    marginHorizontal: 16,
   },
   title: {
-    fontSize: 24
-  }
+    fontSize: 18,
+  },
 });
 
+const WebScreen = (props) => {
+  return (
+    <Text>{props.videoUrl}</Text>
+  );
+}
+
 Navigation.registerComponent('Home', () => App);
+Navigation.registerComponent('Web', () => WebScreen);
 Navigation.events().registerAppLaunchedListener(() => {
    Navigation.setRoot({
      root: {
