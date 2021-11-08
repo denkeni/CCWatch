@@ -9,16 +9,18 @@
 import React, { useEffect, useState } from 'react';
 import type {Node} from 'react';
 import {
+  ActivityIndicator,
+  FlatList,
+  Platform,
+  PlatformColor,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   useColorScheme,
   View,
-  TouchableOpacity,
-  ActivityIndicator,
-  FlatList,
 } from 'react-native';
 
 import {
@@ -61,7 +63,7 @@ const App: () => Node = (props) => {
   };
 
   const renderItem = ({ item }) => (
-    <Item title={item.date+ ' ' + item.time + ' ' + item.legislatorName + '\n' + item.typeName}
+    <Item title={item.date+ ' ' + item.speechStartTime + ' ' + item.legislatorName + '\n' + item.typeName}
           content={item.content}
           videoUrl={item.videoUrl}
           homeComponentId={homeComponentId}
@@ -117,7 +119,7 @@ const App: () => Node = (props) => {
                     "speechStartTime": speechStartTime,
                     "speechRecordurl": speechRecordurl,
                     "videoUrl": videoUrl,
-                    "key": speechStartTime + legislatorName
+                    "key": date + speechStartTime + legislatorName
                   };
       data.push(obj);
     }
@@ -138,6 +140,7 @@ const App: () => Node = (props) => {
           data={data}
           renderItem={renderItem}
           keyExtractor={item => item.key}
+          style={styles.list}
         />
       )}
     </SafeAreaView>
@@ -156,14 +159,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  list: {
+    ...Platform.select({
+      ios: {
+        backgroundColor: PlatformColor('systemBackground'),
+      },
+      android: {
+        backgroundColor: PlatformColor('?android:attr/colorBackground'),
+      },
+      default: { backgroundColor: 'white' }
+    })
+  },
   item: {
-    backgroundColor: 'gainsboro',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
+    ...Platform.select({
+      ios: {
+        backgroundColor: PlatformColor('secondarySystemBackground'),
+      },
+      android: {
+        backgroundColor: PlatformColor('?android:attr/colorBackgroundFloating'),
+      },
+      default: { backgroundColor: 'gainsboro' }
+    })
   },
   title: {
     fontSize: 18,
+    ...Platform.select({
+      ios: {
+        color: PlatformColor('label'),
+      },
+      android: {
+        // FIXME: Android dark theme switching does not work;
+        // textColorPrimary does not work; default gray is okay.
+        // color: PlatformColor('?android:attr/textColorPrimary'),
+      },
+      default: { color: 'black' }
+    })
   },
 });
 
