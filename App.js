@@ -13,6 +13,7 @@ import {
   FlatList,
   Platform,
   PlatformColor,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -28,6 +29,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import { Navigation } from "react-native-navigation";
+import { WebView } from 'react-native-webview';
 
 const Item = ({ title, content, videoUrl, homeComponentId }) => (
   <TouchableOpacity
@@ -72,8 +74,14 @@ const App: () => Node = (props) => {
 
   // Data
   const [isLoading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [data, setData] = useState([]);
   const homeComponentId = props.componentId;
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getMeetings().then(() => setRefreshing(false));
+  }, []);
 
   const getMeetings = async () => {
     const Papa = require('papaparse');
@@ -135,12 +143,18 @@ const App: () => Node = (props) => {
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      {isLoading ? <ActivityIndicator/> : (
+      {isLoading ? <ActivityIndicator style={{marginTop:20}}/> : (
         <FlatList
           data={data}
           renderItem={renderItem}
           keyExtractor={item => item.key}
           style={styles.list}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
         />
       )}
     </SafeAreaView>
@@ -150,39 +164,46 @@ const App: () => Node = (props) => {
 App.options = {
   topBar: {
     title: {
-      text: '首頁'
+      text: '最新'
     }
+  },
+  bottomTab: {
+    text: '最新'
   }
 }
+
+const kPrimaryColor = 'crimson';
+
+const kBackgroundColor = Platform.select({
+  ios: () => PlatformColor('systemBackground'),
+  android: () => PlatformColor('?android:attr/colorBackground'),
+  default: () => 'white'
+})();
+
+const kCellBackgroundColor = Platform.select({
+  ios: () => PlatformColor('secondarySystemBackground'),
+  android: () => PlatformColor('?android:attr/colorBackgroundFloating'),
+  default: () => 'white'
+})();
+
+const kTextColor = Platform.select({
+  ios: () => PlatformColor('label'),
+  android: () => PlatformColor('?android:attr/colorPrimary'),
+  default: () => 'black'
+})();
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   list: {
-    ...Platform.select({
-      ios: {
-        backgroundColor: PlatformColor('systemBackground'),
-      },
-      android: {
-        backgroundColor: PlatformColor('?android:attr/colorBackground'),
-      },
-      default: { backgroundColor: 'white' }
-    })
+    backgroundColor: kBackgroundColor
   },
   item: {
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
-    ...Platform.select({
-      ios: {
-        backgroundColor: PlatformColor('secondarySystemBackground'),
-      },
-      android: {
-        backgroundColor: PlatformColor('?android:attr/colorBackgroundFloating'),
-      },
-      default: { backgroundColor: 'gainsboro' }
-    })
+    backgroundColor: kCellBackgroundColor
   },
   title: {
     fontSize: 18,
@@ -202,20 +223,79 @@ const styles = StyleSheet.create({
 
 const WebScreen = (props) => {
   return (
-    <Text>{props.videoUrl}</Text>
+    <WebView source={{ uri: props.videoUrl }}
+             decelerationRate={0.998} />
   );
+}
+
+const SettingsScreen = (props) => {
+  return (
+    <Text>Hello, world</Text>
+  )
+}
+
+SettingsScreen.options = {
+  topBar: {
+    title: {
+      text: '設定'
+    }
+  },
+  bottomTab: {
+    text: '設定'
+  }
 }
 
 Navigation.registerComponent('Home', () => App);
 Navigation.registerComponent('Web', () => WebScreen);
+Navigation.registerComponent('Settings', () => SettingsScreen);
+
+Navigation.setDefaultOptions({
+  statusBar: {
+    backgroundColor: kBackgroundColor
+  },
+  topBar: {
+    title: {
+      color: kTextColor
+    },
+    backButton: {
+      color: kPrimaryColor
+    },
+    background: {
+      backgroundColor: kBackgroundColor
+    }
+  },
+  bottomTab: {
+    fontSize: 14,
+    textColor: kTextColor,
+    selectedTextColor: kPrimaryColor,
+  }
+});
+
 Navigation.events().registerAppLaunchedListener(() => {
    Navigation.setRoot({
      root: {
-       stack: {
+       bottomTabs: {
          children: [
            {
-             component: {
-               name: 'Home'
+             stack: {
+               children: [
+                 {
+                   component: {
+                     name: 'Home'
+                   }
+                 }
+               ]
+             }
+           },
+           {
+             stack: {
+               children: [
+                 {
+                   component: {
+                     name: 'Settings'
+                   }
+                 }
+               ]
              }
            }
          ]
