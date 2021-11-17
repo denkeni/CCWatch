@@ -30,6 +30,7 @@ import {
 
 import { Navigation } from "react-native-navigation";
 import { WebView } from 'react-native-webview';
+import { SettingsScreen } from './Settings.js';
 
 const Item = ({ title, content, videoUrl, homeComponentId }) => (
   <TouchableOpacity
@@ -118,17 +119,21 @@ const App: () => Node = (props) => {
       if (!legislatorName) {
         continue;
       }
-      const obj = { "date": date,
-                    "time": time,
-                    "typeName": typeName,
-                    "content": content,
-                    "legislatorName": legislatorName,
-                    "areaName": areaName,
-                    "speechStartTime": speechStartTime,
-                    "speechRecordurl": speechRecordurl,
-                    "videoUrl": videoUrl,
-                    "key": date + speechStartTime + legislatorName
-                  };
+      if (!props.isAll && props.name !== legislatorName) {
+        continue;
+      }
+      const obj = {
+        "date": date,
+        "time": time,
+        "typeName": typeName,
+        "content": content,
+        "legislatorName": legislatorName,
+        "areaName": areaName,
+        "speechStartTime": speechStartTime,
+        "speechRecordurl": speechRecordurl,
+        "videoUrl": videoUrl,
+        "key": date + speechStartTime + legislatorName
+      };
       data.push(obj);
     }
 
@@ -160,17 +165,6 @@ const App: () => Node = (props) => {
     </SafeAreaView>
   );
 };
-
-App.options = {
-  topBar: {
-    title: {
-      text: '最新'
-    }
-  },
-  bottomTab: {
-    text: '最新'
-  }
-}
 
 const kPrimaryColor = 'crimson';
 
@@ -211,11 +205,13 @@ const styles = StyleSheet.create({
       ios: {
         color: PlatformColor('label'),
       },
+      /*
       android: {
         // FIXME: Android dark theme switching does not work;
         // textColorPrimary does not work; default gray is okay.
         // color: PlatformColor('?android:attr/textColorPrimary'),
       },
+      */
       default: { color: 'black' }
     })
   },
@@ -226,24 +222,7 @@ const WebScreen = (props) => {
     <WebView source={{ uri: props.videoUrl }}
              decelerationRate={0.998} />
   );
-}
-
-const SettingsScreen = (props) => {
-  return (
-    <Text>Hello, world</Text>
-  )
-}
-
-SettingsScreen.options = {
-  topBar: {
-    title: {
-      text: '設定'
-    }
-  },
-  bottomTab: {
-    text: '設定'
-  }
-}
+};
 
 Navigation.registerComponent('Home', () => App);
 Navigation.registerComponent('Web', () => WebScreen);
@@ -276,17 +255,6 @@ Navigation.events().registerAppLaunchedListener(() => {
      root: {
        bottomTabs: {
          children: [
-           {
-             stack: {
-               children: [
-                 {
-                   component: {
-                     name: 'Home'
-                   }
-                 }
-               ]
-             }
-           },
            {
              stack: {
                children: [
