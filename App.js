@@ -30,7 +30,24 @@ import {
 
 import { Navigation } from "react-native-navigation";
 import { WebView } from 'react-native-webview';
-import { SettingsScreen } from './Settings.js';
+import { SettingsScreen, setTabsFromLegislators } from './Settings.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+const getWatchingLegislators = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('watching_legislators');
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch(error) {
+    Alert.alert(
+      "警告：立委清單讀取失敗",
+      error.name + ': ' + error.message,
+      [{ text: "好的",
+         style: "cancel" }],
+      { cancelable: true }
+    );
+  }
+}
 
 const Item = ({ title, content, videoUrl, homeComponentId }) => (
   <TouchableOpacity
@@ -245,30 +262,20 @@ Navigation.setDefaultOptions({
   },
   bottomTab: {
     fontSize: 14,
+    selectedFontSize: 14,
     textColor: kTextColor,
     selectedTextColor: kPrimaryColor,
+    iconColor: kTextColor,
+    selectedIconColor: kPrimaryColor,
+  },
+  bottomTabs: {
+    titleDisplayMode: 'alwaysShow'
   }
 });
 
 Navigation.events().registerAppLaunchedListener(() => {
-   Navigation.setRoot({
-     root: {
-       bottomTabs: {
-         children: [
-           {
-             stack: {
-               children: [
-                 {
-                   component: {
-                     name: 'Settings'
-                   }
-                 }
-               ]
-             }
-           }
-         ]
-       }
-     }
+  getWatchingLegislators().then(legislators => {
+    setTabsFromLegislators(legislators);
   });
 });
 

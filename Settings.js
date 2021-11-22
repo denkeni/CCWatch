@@ -1,9 +1,93 @@
 import React, { useState, useRef } from 'react';
 import { View, Alert } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { legislatorItems } from './legislators.js';
 import { Navigation } from "react-native-navigation";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const storeWatchingLegislators = async (value) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem('watching_legislators', jsonValue);
+  } catch (error) {
+    Alert.alert(
+      "警告：立委監督清單儲存失敗",
+      error.name + ': ' + error.message,
+      [{ text: "好的",
+         style: "cancel" }],
+      { cancelable: true }
+    );
+  }
+}
+
+// See: https://github.com/wix/react-native-navigation/issues/5409
+async function prepareIcons() {
+  const icons = await Promise.all([
+      MaterialIcons.getImageSource('settings', 25),
+      MaterialIcons.getImageSource('account-circle', 25)
+  ]);
+  const [ settingsIcon, personIcon ] = icons;
+  return { settingsIcon, personIcon };
+}
+
+export const setTabsFromLegislators = async (value) => {
+  const tabs = [];
+  const legislators = value === null ? [] : value;
+  const icons = await prepareIcons();
+  for (var legislator of legislators) {
+    const tab = {
+      stack: {
+        children: [{
+          component: {
+            name: 'Home',
+            passProps: {
+              name: legislator,
+              isAll: false
+            }
+          }
+        }],
+        options: {
+          topBar: {
+            title: {
+              // FIXME: This does not work on iOS. A bug?
+              text: legislator
+            }
+          },
+          bottomTab: {
+            text: legislator,
+            icon: icons.personIcon
+          }
+        }
+      }
+    };
+    tabs.push(tab);
+  }
+  const settingsTab = {
+    stack: {
+      children: [{
+        component: {
+          name: 'Settings'
+        }
+      }],
+      options: {
+        bottomTab: {
+          text: '設定',
+          icon: icons.settingsIcon
+        }
+      }
+    }
+  };
+  tabs.push(settingsTab);
+  const newRoot = {
+    root: {
+      bottomTabs: {
+        children: tabs
+      }
+    }
+  };
+  Navigation.setRoot(newRoot);
+}
 
 export const SettingsScreen = (props) => {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -24,71 +108,17 @@ export const SettingsScreen = (props) => {
   };
 
   const onConfirm = () => {
-     const tabs = [];
-     for (var legislator of selectedItems) {
-       const tab = {
-         stack: {
-           children: [{
-             component: {
-               name: 'Home',
-               passProps: {
-                 name: legislator,
-                 isAll: false
-               }
-             }
-           }],
-           options: {
-             topBar: {
-               title: {
-                 text: legislator
-               }
-             },
-             bottomTab: {
-               text: legislator
-             }
-           }
-         }
-       };
-       tabs.push(tab);
-     }
-     const settingsTab = {
-       stack: {
-         children: [{
-           component: {
-             name: 'Settings'
-           }
-         }],
-         options: {
-             topBar: {
-               title: {
-                 // FIXME: This does not work on iOS. A bug?
-                 text: legislator
-               }
-             },
-             bottomTab: {
-               text: legislator
-             }
-           }
-       }
-     };
-     tabs.push(settingsTab);
-     const newRoot = {
-       root: {
-         bottomTabs: {
-           children: tabs
-         }
-       }
-     };
-     Navigation.setRoot(newRoot);
+    setTabsFromLegislators(selectedItems);
+    storeWatchingLegislators(selectedItems);
   };
 
   // See: https://github.com/oblador/react-native-vector-icons/issues/965#issuecomment-810501767
-  Icon.loadFont();
+  MaterialIcons.loadFont();
 
   return (
     <SectionedMultiSelect
       items={legislatorItems}
-      IconRenderer={Icon}
+      IconRenderer={MaterialIcons}
       uniqueKey="name"
       subKey="legislators"
       displayKey="name"
@@ -111,8 +141,5 @@ SettingsScreen.options = {
     title: {
       text: '設定'
     }
-  },
-  bottomTab: {
-    text: '設定'
   }
 };
