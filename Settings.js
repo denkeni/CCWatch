@@ -1,15 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Alert } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { legislatorItems } from './legislators.js';
 import { Navigation } from "react-native-navigation";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { dataStringFromNetworkFetching, setCacheDataString, getCacheDataString } from './App.js';
+import { useGlobalStore } from './global.js';
 
 const storeWatchingLegislators = async (value) => {
   try {
     const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem('watching_legislators', jsonValue);
+     await AsyncStorage.setItem('watching_legislators', jsonValue);
   } catch (error) {
     Alert.alert(
       "警告：立委監督清單儲存失敗",
@@ -50,7 +52,8 @@ export const setTabsFromLegislators = async (value) => {
         options: {
           topBar: {
             title: {
-              // FIXME: This does not work on iOS. A bug?
+              // FIXME: This does not work on iOS. A bug!
+              // See: https://github.com/wix/react-native-navigation/issues/5853#issuecomment-789168930
               text: legislator
             }
           },
@@ -112,8 +115,24 @@ export const SettingsScreen = (props) => {
     storeWatchingLegislators(selectedItems);
   };
 
+
+  const {setGlobalCacheDataString, getGlobalCacheDataString} = useGlobalStore();
+
   // See: https://github.com/oblador/react-native-vector-icons/issues/965#issuecomment-810501767
   MaterialIcons.loadFont();
+
+  useEffect(() => {
+    // See: https://stackoverflow.com/a/53572588/3796488
+    async function preloadData() {
+      const cacheDataString = getGlobalCacheDataString();
+      if (typeof(cacheDataString) === 'string') {
+        return; // preloaded cache was ready
+      }
+      const dataString = await dataStringFromNetworkFetching();
+      setGlobalCacheDataString(dataString);
+    }
+    preloadData();
+  }, []);
 
   return (
     <SectionedMultiSelect

@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import type {Node} from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Platform,
   PlatformColor,
@@ -33,6 +34,10 @@ import { WebScreen } from './Webview.js';
 import { SettingsScreen, setTabsFromLegislators } from './Settings.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import Papa from 'papaparse';
+import { observer } from 'mobx-react-lite';
+import { useGlobalStore } from './global.js';
+
 const getWatchingLegislators = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem('watching_legislators');
@@ -46,6 +51,12 @@ const getWatchingLegislators = async () => {
       { cancelable: true }
     );
   }
+}
+
+export const dataStringFromNetworkFetching = async () => {
+  const csv = await fetch('https://data.ly.gov.tw/odw/usageFile.action?id=148&type=CSV&fname=148_1004CSV-1.csv');
+  const csvStr = await csv.text();
+  return csvStr;
 }
 
 const Item = ({ title, content, videoUrl, homeComponentId }) => (
@@ -90,6 +101,14 @@ const App: () => Node = (props) => {
   );
 
   // Data
+  const {
+    isGlobalFetching,
+    setIsGlobalFetchingTrue,
+    setIsGlobalFetchingFalse,
+    addFetchedListener,
+    setGlobalCacheDataString,
+    getGlobalCacheDataString
+  } = useGlobalStore();
   const [isLoading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [data, setData] = useState([]);
@@ -97,17 +116,50 @@ const App: () => Node = (props) => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    getMeetings().then(() => setRefreshing(false));
+    setDataFromNetworkFetching().then(
+      () => setRefreshing(false)
+    );
   }, []);
 
   const getMeetings = async () => {
-    const Papa = require('papaparse');
-    const csv = await fetch('https://data.ly.gov.tw/odw/usageFile.action?id=148&type=CSV&fname=148_1004CSV-1.csv');
-    const csvStr = await csv.text();
-    const result = Papa.parse(csvStr);
+    console.log(isGlobalFetching);
+    if (isGlobalFetching) {
+      console.log("WAITING");
+      setDataFromCacheDataString();
+      return;
+    }
+    // See: https://stackoverflow.com/a/35612484/3796488
+    await Promise.all([setDataFromCacheDataString(),
+                       setDataFromNetworkFetching()]);
+  }
 
+  const setDataFromCacheDataString = () => {
+    const cacheDataString = getGlobalCacheDataString();
+    if (typeof(cacheDataString) === 'string') {
+      const papaResult = Papa.parse(cacheDataString);
+      const data = parsedJSONData(papaResult);
+      setData(data);
+      setLoading(false);
+      console.log("USE CACHE");
+    }
+  }
+
+  const setDataFromNetworkFetching = async () => {
+      console.log("FETCHING...");
+      setIsGlobalFetchingTrue();
+      const dataString = await dataStringFromNetworkFetching();
+      const papaResult = Papa.parse(dataString);
+      const data = parsedJSONData(papaResult);
+      console.log("FETCHED.")
+      setData(data);
+      setLoading(false);
+      setGlobalCacheDataString(dataString);
+      setIsGlobalFetchingFalse();
+  }
+
+  function parsedJSONData(papaResult) {
     // generating indexes...
-    const resultArrays = result['data'];
+    const resultArrays = papaResult['data'];
     const keyArray = resultArrays[0];
     const dateIndex = keyArray.indexOf('meetingDate');
     const timeIndex = keyArray.indexOf('meetingTime');
@@ -152,13 +204,15 @@ const App: () => Node = (props) => {
       };
       data.push(obj);
     }
-
-    setData(data);
-    setLoading(false);
+    return data;
   }
 
   useEffect(() => {
     getMeetings();
+    addFetchedListener(() => {
+      console.log("UPDATED FROM other FETCHED.");
+      setDataFromCacheDataString();
+    });
   }, []);
 
   return (
