@@ -29,10 +29,9 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import { Navigation } from "react-native-navigation";
-import { WebView } from 'react-native-webview';
+import { WebScreen } from './Webview.js';
 import { SettingsScreen, setTabsFromLegislators } from './Settings.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const getWatchingLegislators = async () => {
   try {
@@ -57,8 +56,8 @@ const Item = ({ title, content, videoUrl, homeComponentId }) => (
             options: {
               topBar: {
                 title: {
-                  text: 'Web'
-                }
+                  text: title
+                },
               },
             },
             passProps: {
@@ -233,13 +232,6 @@ const styles = StyleSheet.create({
     })
   },
 });
-
-const WebScreen = (props) => {
-  return (
-    <WebView source={{ uri: props.videoUrl }}
-             decelerationRate={0.998} />
-  );
-};
 
 Navigation.registerComponent('Home', () => App);
 Navigation.registerComponent('Web', () => WebScreen);
