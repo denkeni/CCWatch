@@ -140,7 +140,7 @@ export const SettingsScreen = (props) => {
       IconRenderer={MaterialIcons}
       uniqueKey="name"
       subKey="legislators"
-      displayKey="name"
+      displayKey="title"
       selectText="選擇你要監督的立委（最多 4 位）"
       searchPlaceholderText="搜尋關鍵字"
       confirmText="完成"
