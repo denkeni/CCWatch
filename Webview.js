@@ -35,6 +35,8 @@ export const WebScreen = (props) => {
 
   return (
     <WebView source={{ uri: props.videoUrl }}
+             // See: https://github.com/react-native-webview/react-native-webview/issues/1035#issuecomment-956006729
+             mediaPlaybackRequiresUserAction={true}
              decelerationRate={0.998} />
   );
 };
