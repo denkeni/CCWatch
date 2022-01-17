@@ -70,7 +70,10 @@ export const setTabsFromLegislators = async (value) => {
     stack: {
       children: [{
         component: {
-          name: 'Settings'
+          name: 'Settings',
+          passProps: {
+            shouldPreloadData: legislators.length === 0 ? true : false
+          }
         }
       }],
       options: {
@@ -124,14 +127,12 @@ export const SettingsScreen = (props) => {
   useEffect(() => {
     // See: https://stackoverflow.com/a/53572588/3796488
     async function preloadData() {
-      const cacheDataString = getGlobalCacheDataString();
-      if (typeof(cacheDataString) === 'string') {
-        return; // preloaded cache was ready
-      }
       const dataString = await dataStringFromNetworkFetching();
       setGlobalCacheDataString(dataString);
     }
-    preloadData();
+    if (props.shouldPreloadData) {
+      preloadData();
+    }
   }, []);
 
   return (
