@@ -187,9 +187,9 @@ export const legislatorItems = [
   {
     title: '平地原住民', name: '平地原住民',
     legislators: [
-      { title: '鄭天財', name: '鄭天財' },
+      { title: '鄭天財 Sra Kacaw', name: '鄭天財 Sra Kacaw' },
       { title: '陳瑩', name: '陳瑩' },
-      { title: '廖國棟', name: '廖國棟' }
+      { title: '廖國棟Sufin‧Siluko', name: '廖國棟Sufin‧Siluko' }
     ]
   },
   {
@@ -197,7 +197,7 @@ export const legislatorItems = [
     legislators: [
       { title: '高金素梅', name: '高金素梅' },
       { title: '孔文吉', name: '孔文吉' },
-      { title: '伍麗華', name: '伍麗華' }
+      { title: '伍麗華Saidhai‧Tahovecahe', name: '伍麗華Saidhai‧Tahovecahe' }
     ]
   },
   {
@@ -255,3 +255,31 @@ export const legislatorItems = [
     ]
   },
 ];
+
+export const committeeOfLegislator = (legislator) => {
+  const internal = ['吳琪銘', '張宏陸', '王美惠', '伍麗華Saidhai‧Tahovecahe', '管碧玲', '莊瑞雄', '湯蕙禎', '羅美玲 ', '林為洲', '林思銘', '林文瑞', '魯明哲', '吳怡玎', '邱顯智',];
+  const foreign = ['王定宇', '江啟臣', '林昶佐', '林淑芬', '馬文君', '陳以信', '游錫堃', '溫玉霞', '廖婉汝', '趙天麟', '劉建國', '蔡適應', '林靜儀'];
+  const economics = ['孔文吉', '何欣純', '呂玉玲', '林岱樺', '邱志偉', '邱議瑩', '陳亭妃', '陳超明', '楊瓊瓔', '蔡易餘', '蔡壁如', '鄭運鵬', '賴瑞隆', '謝衣鳯', '蘇治芬'];
+  const finance = ['余天', '吳秉叡', '李貴敏', '沈發惠', '林楚茵', '林德福', '高嘉瑜', '張其祿', '郭國文', '曾銘宗', '賴士葆', '鍾佳濱', '羅明才'];
+  const education = ['王婉諭', '吳思瑤', '李德維', '周春米', '林宜瑾', '林奕華', '范雲', '高金素梅', '高虹安', '張廖萬堅', '陳秀寳', '黃國書', '萬美玲', '鄭正鈐', '賴品妤'];
+  const transportation = ['李昆澤', '林俊憲', '邱臣遠', '洪孟楷', '許淑華', '陳明文', '陳素月', '陳雪生', '陳歐珀', '傅崐萁', '趙正宇', '劉櫂豪', '蔡其昌', '鄭天財 Sra Kacaw', '蘇震清'];
+  const judiciary = ['黃世杰', '江永昌', '何志偉', '柯建銘', '劉世芳', '羅致政', '許智傑', '費鴻泰', '翁重鈞', '鄭麗文', '葉毓蘭', '吳斯懷', '陳椒華'];
+  const social = ['吳玉琴', '邱泰源', '洪申翰', '徐志榮', '張育美', '莊競程', '陳玉珍', '陳瑩', '黃秀芳', '楊曜', '廖國棟Sufin‧Siluko', '蔣萬安', '賴香伶', '賴惠員', '蘇巧慧'];
+  if (internal.includes(legislator)) {
+    return '內政委員會';
+  } else if (foreign.includes(legislator)) {
+    return '外交及國防委員會';
+  } else if (economics.includes(legislator)) {
+    return '經濟委員會';
+  } else if (finance.includes(legislator)) {
+    return '財政委員會';
+  } else if (education.includes(legislator)) {
+    return '教育及文化委員會';
+  } else if (transportation.includes(legislator)) {
+    return '交通委員會';
+  } else if (judiciary.includes(legislator)) {
+    return '司法及法制委員會';
+  } else if (social.includes(legislator)) {
+    return '社會福利及衛生環境委員會';
+  }
+};

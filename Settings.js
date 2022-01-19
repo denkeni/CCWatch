@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, Alert } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-import { legislatorItems } from './legislators.js';
+import { legislatorItems, committeeOfLegislator } from './legislators.js';
 import { Navigation } from "react-native-navigation";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { dataStringFromNetworkFetching, setCacheDataString, getCacheDataString } from './App.js';
@@ -54,7 +54,7 @@ export const setTabsFromLegislators = async (value) => {
             title: {
               // FIXME: This does not work on iOS. A bug!
               // See: https://github.com/wix/react-native-navigation/issues/5853#issuecomment-789168930
-              text: legislator
+              text: legislator + "（" + committeeOfLegislator(legislator) + "）"
             }
           },
           bottomTab: {
