@@ -54,6 +54,7 @@ const getWatchingLegislators = async () => {
 }
 
 export const dataStringFromNetworkFetching = async () => {
+  // API documentation: https://data.ly.gov.tw/getds.action?id=148
   const csv = await fetch('https://data.ly.gov.tw/odw/usageFile.action?id=148&type=CSV&fname=148_1004CSV-1.csv');
   const csvStr = await csv.text();
   return csvStr;
