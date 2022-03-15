@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, Alert } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-import { legislatorItems, committeeOfLegislator } from './legislators.js';
+import { legislatorItems, committeeOfLegislator } from './data.js';
 import { Navigation } from "react-native-navigation";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { dataStringFromNetworkFetching, setCacheDataString, getCacheDataString } from './App.js';

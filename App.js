@@ -37,6 +37,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Papa from 'papaparse';
 import { observer } from 'mobx-react-lite';
 import { useGlobalStore } from './global.js';
+import { csvAPIURL } from './data.js';
 
 const getWatchingLegislators = async () => {
   try {
@@ -54,8 +55,7 @@ const getWatchingLegislators = async () => {
 }
 
 export const dataStringFromNetworkFetching = async () => {
-  // API documentation: https://data.ly.gov.tw/getds.action?id=148
-  const csv = await fetch('https://data.ly.gov.tw/odw/usageFile.action?id=148&type=CSV&fname=148_1004CSV-1.csv');
+  const csv = await fetch(csvAPIURL);
   const csvStr = await csv.text();
   return csvStr;
 }
