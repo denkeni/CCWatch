@@ -26,17 +26,42 @@ const storeWatchingLegislators = async (value) => {
 // See: https://github.com/wix/react-native-navigation/issues/5409
 async function prepareIcons() {
   const icons = await Promise.all([
+      MaterialIcons.getImageSource('home', 25),
       MaterialIcons.getImageSource('settings', 25),
       MaterialIcons.getImageSource('account-circle', 25)
   ]);
-  const [ settingsIcon, personIcon ] = icons;
-  return { settingsIcon, personIcon };
+  const [ homeIcon, settingsIcon, personIcon ] = icons;
+  return { homeIcon, settingsIcon, personIcon };
 }
 
 export const setTabsFromLegislators = async (value) => {
   const tabs = [];
   const legislators = value === null ? [] : value;
   const icons = await prepareIcons();
+  const tab = {
+    stack: {
+      children: [{
+        component: {
+          name: 'Home',
+          passProps: {
+            isAll: true
+          }
+        }
+      }],
+      options: {
+        topBar: {
+          title: {
+            text: "最新"
+          }
+        },
+        bottomTab: {
+          text: "最新",
+          icon: icons.homeIcon
+        }
+      }
+    }
+  };
+  tabs.push(tab);
   for (var legislator of legislators) {
     const tab = {
       stack: {
@@ -100,10 +125,10 @@ export const SettingsScreen = (props) => {
   const ref = useRef(null);
 
   const onSelectedItemsChange = (items) => {
-    if (items.length > 4) {
+    if (items.length > 3) {
       Alert.alert(
         "提醒",
-        "最多支援關注 4 位立委喔",
+        "最多支援關注 3 位立委喔",
         [{ text: "好的",
            style: "cancel" }],
         { cancelable: true }
@@ -145,7 +170,7 @@ export const SettingsScreen = (props) => {
       uniqueKey="name"
       subKey="legislators"
       displayKey="title"
-      selectText="選擇你要監督的立委（最多 4 位）"
+      selectText="選擇你要監督的立委（最多 3 位）"
       searchPlaceholderText="搜尋關鍵字"
       confirmText="完成"
       showCancelButton={true}
