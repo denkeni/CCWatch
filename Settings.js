@@ -79,7 +79,7 @@ export const setTabsFromLegislators = async (value) => {
             title: {
               // FIXME: This does not work on iOS. A bug!
               // See: https://github.com/wix/react-native-navigation/issues/5853#issuecomment-789168930
-              text: legislator + "（" + committeeOfLegislator(legislator) + "）"
+              text: legislator
             }
           },
           bottomTab: {

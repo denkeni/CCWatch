@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 // API documentation: https://data.ly.gov.tw/getds.action?id=148
-export const csvAPIURL = 'https://data.ly.gov.tw/odw/usageFile.action?id=148&type=CSV&fname=148_1005CSV-1.csv';
+export const csvAPIURL = 'https://data.ly.gov.tw/odw/usageFile.action?id=148&type=CSV&fname=148_1006CSV-1.csv';
 
 export const legislatorItems = [
   {
@@ -258,31 +258,3 @@ export const legislatorItems = [
     ]
   },
 ];
-
-export const committeeOfLegislator = (legislator) => {
-  const internal = ['吳琪銘', '張宏陸', '王美惠', '伍麗華Saidhai‧Tahovecahe', '管碧玲', '莊瑞雄', '湯蕙禎', '羅美玲 ', '鄭天財 Sra Kacaw', '翁重鈞', '鄭麗文', '林文瑞', '李德維', '賴香伶',];
-  const foreign = ['王定宇', '江啟臣', '何志偉', '吳斯懷', '林昶佐', '林淑芬', '邱臣遠', '馬文君', '溫玉霞', '廖婉汝', '趙天麟', '蔡適應', '羅致政', '林靜儀'];
-  const economics = ['孔文吉', '呂玉玲', '林岱樺', '邱志偉', '邱議瑩', '邱顯智', '高虹安', '陳明文', '陳亭妃', '陳超明', '楊瓊瓔', '賴瑞隆', '謝衣鳯', '蘇治芬', '蘇震清'];
-  const finance = ['余天', '吳秉叡', '李貴敏', '沈發惠', '林楚茵', '林德福', '高嘉瑜', '張其祿', '郭國文', '費鴻泰', '賴士葆', '鍾佳濱', '羅明才'];
-  const education = ['王婉諭', '何欣純', '吳怡玎', '吳思瑤', '林宜瑾', '林奕華', '范雲', '高金素梅', '張廖萬堅', '陳秀寳', '黃國書', '萬美玲', '鄭正鈐', '賴品妤'];
-  const transportation = ['李昆澤', '林俊憲', '洪孟楷', '許淑華', '許智傑', '陳素月', '陳雪生', '陳椒華', '傅崐萁', '趙正宇', '劉世芳', '劉櫂豪', '蔡易餘', '魯明哲'];
-  const judiciary = ['柯建銘', '鄭運鵬', '陳歐珀', '黃世杰', '周春米', '江永昌', '劉建國', '游錫堃', '蔡其昌', '曾銘宗', '陳玉珍', '葉毓蘭', '陳以信(召委)', '林思銘'];
-  const social = ['吳玉琴', '林為洲', '邱泰源', '洪申翰', '徐志榮', '張育美', '莊競程', '陳瑩', '黃秀芳', '楊曜', '廖國棟Sufin‧Siluko', '蔡壁如', '蔣萬安', '賴惠員', '蘇巧慧'];
-  if (internal.includes(legislator)) {
-    return '內政委員會';
-  } else if (foreign.includes(legislator)) {
-    return '外交及國防委員會';
-  } else if (economics.includes(legislator)) {
-    return '經濟委員會';
-  } else if (finance.includes(legislator)) {
-    return '財政委員會';
-  } else if (education.includes(legislator)) {
-    return '教育及文化委員會';
-  } else if (transportation.includes(legislator)) {
-    return '交通委員會';
-  } else if (judiciary.includes(legislator)) {
-    return '司法及法制委員會';
-  } else if (social.includes(legislator)) {
-    return '社會福利及衛生環境委員會';
-  }
-};
