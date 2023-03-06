@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 // API documentation: https://data.ly.gov.tw/getds.action?id=148
-export const csvAPIURL = 'https://data.ly.gov.tw/odw/usageFile.action?id=148&type=CSV&fname=148_1006CSV-1.csv';
+export const csvAPIURL = 'https://data.ly.gov.tw/odw/usageFile.action?id=148&type=CSV&fname=148_1007CSV-1.csv';
 
 export const legislatorItems = [
   {
@@ -9,10 +9,11 @@ export const legislatorItems = [
     legislators: [
       { title: '吳思瑤：第一選舉區（北投、士林）', name: '吳思瑤' },
       { title: '何志偉：第二選舉區（大同、士林）', name: '何志偉' },
-      { title: '蔣萬安：第三選舉區（中山、松山）', name: '蔣萬安' },
+      { title: '王鴻薇：第三選舉區（中山、松山）', name: '王鴻薇' },
       { title: '高嘉瑜：第四選舉區（內湖、南港）', name: '高嘉瑜' },
       { title: '林昶佐：第五選舉區（萬華、中正）', name: '林昶佐' },
-      { title: '林奕華：第六選舉區（大安）', name: '林奕華' },
+      // 缺額（不再另行辦理補選）
+      // { title: '林奕華：第六選舉區（大安）', name: '林奕華' },
       { title: '費鴻泰：第七選舉區（信義、松山）', name: '費鴻泰' },
       { title: '賴士葆：第八選舉區（文山、中正）', name: '賴士葆' }
     ]
@@ -127,7 +128,7 @@ export const legislatorItems = [
     title: '南投縣', name: '南投縣',
     legislators: [
       { title: '馬文君：第一選舉區（草屯鎮、國姓鄉、埔里鎮、仁愛鄉、中寮鄉、魚池鄉）', name: '馬文君' },
-      { title: '許淑華：第二選舉區（南投市、名間鄉、集集鎮、竹山鎮、鹿谷鄉、水里鄉、信義鄉）', name: '許淑華' }
+      { title: '蔡培慧：第二選舉區（南投市、名間鄉、集集鎮、竹山鎮、鹿谷鄉、水里鄉、信義鄉）', name: '蔡培慧' }
     ]
   },
   {
@@ -214,11 +215,12 @@ export const legislatorItems = [
       { title: '周春米', name: '周春米' },
       { title: '游錫堃', name: '游錫堃' },
       { title: '柯建銘', name: '柯建銘' },
-      { title: '管碧玲', name: '管碧玲' },
       { title: '莊瑞雄', name: '莊瑞雄' },
       { title: '沈發惠', name: '沈發惠' },
       { title: '林楚茵', name: '林楚茵' },
-      { title: '湯蕙禎', name: '湯蕙禎' }
+      { title: '湯蕙禎', name: '湯蕙禎' },
+      { title: '陳靜敏', name: '陳靜敏' },
+      { title: '陳培瑜', name: '陳培瑜' },
     ]
   },
   {
@@ -244,9 +246,9 @@ export const legislatorItems = [
     legislators: [
       { title: '賴香伶', name: '賴香伶' },
       { title: '張其祿', name: '張其祿' },
-      { title: '高虹安', name: '高虹安' },
       { title: '邱臣遠', name: '邱臣遠' },
-      { title: '蔡壁如', name: '蔡壁如' }
+      { title: '吳欣盈', name: '吳欣盈' },
+      { title: '陳琬惠', name: '陳琬惠' },
     ]
   },
   {
