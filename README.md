@@ -1,4 +1,4 @@
-# CCWatch 一生監督
+# 立法院大小聲
 
 This project is live on [App Store](https://apps.apple.com/tw/app/id1604118355) and [Google Play](https://play.google.com/store/apps/details?id=com.ccwatch). For beta testing, please refer to [this documentation](https://www.craft.do/s/PlJXdU2G3Qizuz).
 
