@@ -79,9 +79,13 @@ const Item = ({ title, content, videoUrl, homeComponentId }) => (
         })}>
     <View style={styles.item}>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.title}>{content}</Text>
+      <Text style={styles.content}>{content}</Text>
     </View>
   </TouchableOpacity>
+);
+
+const ListEmptyView = () => (
+  <Text style={[{textAlign: 'center', marginTop: 60}, styles.content]}>尚無質詢紀錄</Text>
 );
 
 const App: () => Node = (props) => {
@@ -94,8 +98,8 @@ const App: () => Node = (props) => {
   };
 
   const renderItem = ({ item }) => (
-    <Item title={item.date+ ' ' + item.speechStartTime + ' ' + item.legislatorName + '\n' + item.typeName}
-          content={item.content}
+    <Item title={item.date+ ' ' + item.legislatorName + '\n' + item.typeName}
+          content={item.speechStartTime + '\n' + item.content}
           videoUrl={item.videoUrl}
           homeComponentId={homeComponentId}
     />
@@ -231,6 +235,7 @@ const App: () => Node = (props) => {
               onRefresh={onRefresh}
             />
           }
+          ListEmptyComponent={ListEmptyView}
         />
       )}
     </SafeAreaView>
@@ -268,10 +273,13 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
+    borderRadius: 10,
     backgroundColor: kCellBackgroundColor
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 6,
     ...Platform.select({
       ios: {
         color: PlatformColor('label'),
@@ -286,6 +294,22 @@ const styles = StyleSheet.create({
       default: { color: 'black' }
     })
   },
+  content: {
+    fontSize: 18,
+    ...Platform.select({
+      ios: {
+        color: PlatformColor('label'),
+      },
+      /*
+      android: {
+        // FIXME: Android dark theme switching does not work;
+        // textColorPrimary does not work; default gray is okay.
+        // color: PlatformColor('?android:attr/textColorPrimary'),
+      },
+      */
+      default: { color: 'black' }
+    })
+  }
 });
 
 Navigation.registerComponent('Home', () => App);

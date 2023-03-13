@@ -181,6 +181,7 @@ export const SettingsScreen = (props) => {
       onCancel={onCancel}
       selectedItems={selectedItems}
       ref={ref}
+      modalWithSafeAreaView={true}
     />
 
   );
