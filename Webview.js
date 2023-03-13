@@ -17,7 +17,7 @@ export const WebScreen = (props) => {
       topBar: {
         rightButtons: [
           {
-            id: 'share',
+            id: props.videoUrl,
             text: '分享',
             // TODO: icon
           },
@@ -27,6 +27,9 @@ export const WebScreen = (props) => {
   }, []);
 
   const navigationButtonEventListener = Navigation.events().registerNavigationButtonPressedListener(({ buttonId }) => {
+    if (buttonId !== props.videoUrl) {
+      return;
+    }
     Share.share({
       message: Platform.OS === 'android' ? props.videoUrl : null,
       url: props.videoUrl
