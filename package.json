@@ -10,16 +10,16 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.15.11",
-    "mobx": "^6.3.10",
-    "mobx-react-lite": "^3.2.3",
-    "papaparse": "^5.3.1",
+    "@react-native-async-storage/async-storage": "^1.19.0",
+    "mobx": "^6.9.1",
+    "mobx-react-lite": "^4.0.3",
+    "papaparse": "^5.4.1",
     "react": "18.2.0",
     "react-native": "0.70.7",
-    "react-native-navigation": "^7.30.0-alpha.1",
-    "react-native-sectioned-multi-select": "^0.9.0",
-    "react-native-vector-icons": "^9.0.0",
-    "react-native-webview": "^11.14.2"
+    "react-native-navigation": "^7.34.0",
+    "react-native-sectioned-multi-select": "^0.10.0",
+    "react-native-vector-icons": "^9.2.0",
+    "react-native-webview": "^13.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
