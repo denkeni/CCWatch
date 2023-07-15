@@ -56,7 +56,8 @@ export const setTabsFromLegislators = async (value) => {
         },
         bottomTab: {
           text: "最新",
-          icon: icons.homeIcon
+          icon: icons.homeIcon,
+          popToRoot: true,    // for Android
         }
       }
     }
@@ -84,7 +85,8 @@ export const setTabsFromLegislators = async (value) => {
           },
           bottomTab: {
             text: legislator,
-            icon: icons.personIcon
+            icon: icons.personIcon,
+            popToRoot: true,    // for Android
           }
         }
       }
@@ -104,7 +106,8 @@ export const setTabsFromLegislators = async (value) => {
       options: {
         bottomTab: {
           text: '設定',
-          icon: icons.settingsIcon
+          icon: icons.settingsIcon,
+          popToRoot: true,    // for Android
         }
       }
     }

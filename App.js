@@ -60,7 +60,7 @@ export const dataStringFromNetworkFetching = async () => {
   return csvStr;
 }
 
-const Item = ({ title, content, videoUrl, homeComponentId }) => (
+const Item = ({ date, time, title, subtitle, content, videoUrl, homeComponentId }) => (
   <TouchableOpacity
     onPress={() => Navigation.push(homeComponentId, {
           component: {
@@ -78,7 +78,12 @@ const Item = ({ title, content, videoUrl, homeComponentId }) => (
           }
         })}>
     <View style={styles.item}>
+      <View style={styles.dateBox}>
+        <Text style={styles.date}>{date}</Text>
+        <Text style={styles.time}>{time}</Text>
+      </View>
       <Text style={styles.title}>{title}</Text>
+      <Text style={styles.subtitle}>{subtitle}</Text>
       <Text style={styles.content}>{content}</Text>
     </View>
   </TouchableOpacity>
@@ -98,8 +103,11 @@ const App: () => Node = (props) => {
   };
 
   const renderItem = ({ item }) => (
-    <Item title={item.date+ ' ' + item.legislatorName + '\n' + item.typeName}
-          content={item.speechStartTime + '\n' + item.content}
+    <Item date={item.date}
+          time={item.speechStartTime}
+          title={item.legislatorName}
+          subtitle={item.typeName}
+          content={item.content}
           videoUrl={item.videoUrl}
           homeComponentId={homeComponentId}
     />
@@ -250,6 +258,7 @@ const kBackgroundColor = Platform.select({
   default: () => 'white'
 })();
 
+// deprecated
 const kCellBackgroundColor = Platform.select({
   ios: () => PlatformColor('secondarySystemBackground'),
   android: () => PlatformColor('?android:attr/colorBackgroundFloating'),
@@ -274,12 +283,30 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     borderRadius: 10,
-    backgroundColor: kCellBackgroundColor
+    backgroundColor: '#E5E5EA'
+    // backgroundColor: kCellBackgroundColor
+  },
+  dateBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8
+  },
+  date: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#8E8E93',
+    textAlign: 'left'
+  },
+  time: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#8E8E93',
+    textAlign: 'right'
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 6,
+    marginBottom: 8,
     ...Platform.select({
       ios: {
         color: PlatformColor('label'),
@@ -293,6 +320,12 @@ const styles = StyleSheet.create({
       */
       default: { color: 'black' }
     })
+  },
+  subtitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#C93400',
+    marginBottom: 8
   },
   content: {
     fontSize: 18,
