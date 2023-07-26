@@ -11,7 +11,7 @@ async function prepareShareIcon() {
   return image;
 };
 
-export const WebScreen = (props) => {
+const WebScreen = (props) => {
   useEffect(() => {
     Navigation.mergeOptions(props.componentId, {
       topBar: {
@@ -49,3 +49,5 @@ export const WebScreen = (props) => {
              decelerationRate={0.998} />
   );
 };
+
+export default WebScreen;

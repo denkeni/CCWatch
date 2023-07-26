@@ -1,8 +1,5 @@
 import React, { useState, useRef } from 'react';
 
-// API documentation: https://data.ly.gov.tw/getds.action?id=148
-export const csvAPIURL = 'https://data.ly.gov.tw/odw/usageFile.action?id=148&type=CSV&fname=148_1007CSV-1.csv';
-
 export const legislatorItems = [
   {
     title: '臺北市', name: '臺北市',

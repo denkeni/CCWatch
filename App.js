@@ -12,8 +12,6 @@ import {
   ActivityIndicator,
   Alert,
   FlatList,
-  Platform,
-  PlatformColor,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -30,37 +28,26 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import { Navigation } from "react-native-navigation";
-import { WebScreen } from './Webview.js';
-import { SettingsScreen, setTabsFromLegislators } from './Settings.js';
+import { SettingsScreen, setTabsFromLegislators } from './src/components/Settings.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import WebScreen from './src/components/Webview.js';
+import styles from './src/styles/meetingListStyles.js';
+import {
+  kPrimaryColor,
+  kBackgroundColor,
+  kCellBackgroundColor,
+  kTextColor,
+} from './src/styles/globalStyles.js';
 
-import Papa from 'papaparse';
 import { observer } from 'mobx-react-lite';
-import { useGlobalStore } from './global.js';
-import { csvAPIURL } from './data.js';
+import { useGlobalStore } from './src/global.js';
+import {
+  getWatchingLegislators,
+  dataStringFromNetworkFetching,
+  parsedJSONData,
+} from './src/networking/lyAPI.js';
 
-const getWatchingLegislators = async () => {
-  try {
-    const jsonValue = await AsyncStorage.getItem('watching_legislators');
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch(error) {
-    Alert.alert(
-      "警告：立委清單讀取失敗",
-      error.name + ': ' + error.message,
-      [{ text: "好的",
-         style: "cancel" }],
-      { cancelable: true }
-    );
-  }
-}
-
-export const dataStringFromNetworkFetching = async () => {
-  const csv = await fetch(csvAPIURL);
-  const csvStr = await csv.text();
-  return csvStr;
-}
-
-const Item = ({ date, time, title, subtitle, content, videoUrl, homeComponentId }) => (
+const MeetingItem = ({ date, time, title, subtitle, content, videoUrl, homeComponentId }) => (
   <TouchableOpacity
     onPress={() => Navigation.push(homeComponentId, {
           component: {
@@ -103,13 +90,13 @@ const App: () => Node = (props) => {
   };
 
   const renderItem = ({ item }) => (
-    <Item date={item.date}
-          time={item.speechStartTime}
-          title={item.legislatorName}
-          subtitle={item.typeName}
-          content={item.content}
-          videoUrl={item.videoUrl}
-          homeComponentId={homeComponentId}
+    <MeetingItem date={item.date}
+                 time={item.speechStartTime}
+                 title={item.legislatorName}
+                 subtitle={item.typeName}
+                 content={item.content}
+                 videoUrl={item.videoUrl}
+                 homeComponentId={homeComponentId}
     />
   );
 
@@ -149,8 +136,7 @@ const App: () => Node = (props) => {
   const setDataFromCacheDataString = () => {
     const cacheDataString = getGlobalCacheDataString();
     if (typeof(cacheDataString) === 'string') {
-      const papaResult = Papa.parse(cacheDataString);
-      const data = parsedJSONData(papaResult);
+      const data = parsedJSONData(cacheDataString, props.name);
       setData(data);
       setLoading(false);
       console.log("USE CACHE");
@@ -161,63 +147,12 @@ const App: () => Node = (props) => {
       console.log("FETCHING...");
       setIsGlobalFetchingTrue();
       const dataString = await dataStringFromNetworkFetching();
-      const papaResult = Papa.parse(dataString);
-      const data = parsedJSONData(papaResult);
+      const data = parsedJSONData(dataString, props.name);
       console.log("FETCHED.")
       setData(data);
       setLoading(false);
       setGlobalCacheDataString(dataString);
       setIsGlobalFetchingFalse();
-  }
-
-  function parsedJSONData(papaResult) {
-    // generating indexes...
-    const resultArrays = papaResult['data'];
-    const keyArray = resultArrays[0];
-    const dateIndex = keyArray.indexOf('meetingDate');
-    const timeIndex = keyArray.indexOf('meetingTime');
-    const typeNameIndex = keyArray.indexOf('meetingTypeName');
-    const contentIndex = keyArray.indexOf('meetingContent');
-    const legislatorNameIndex = keyArray.indexOf('legislatorName');
-    const areaNameIndex = keyArray.indexOf('areaName');
-    const speechStartTimeIndex = keyArray.indexOf('speechStartTime');
-    const speechRecordUrlIndex = keyArray.indexOf('speechRecordUrl');
-    const videoUrlIndex = keyArray.indexOf('videoUrl');
-
-    let data = Array();
-    // Start from latest; skip index 0 (key array)
-    for (let i = resultArrays.length - 1; i > 0; i--) {
-      const array = resultArrays[i];
-      const date = array[dateIndex];
-      const time = array[timeIndex];
-      const typeName = array[typeNameIndex];
-      const content = array[contentIndex];
-      const legislatorName = array[legislatorNameIndex];
-      const areaName = array[areaNameIndex];
-      const speechStartTime = array[speechStartTimeIndex];
-      const speechRecordurl = array[speechRecordUrlIndex];
-      const videoUrl = array[videoUrlIndex];
-      if (!legislatorName) {
-        continue;
-      }
-      if (!props.isAll && props.name !== legislatorName) {
-        continue;
-      }
-      const obj = {
-        "date": date,
-        "time": time,
-        "typeName": typeName,
-        "content": content,
-        "legislatorName": legislatorName,
-        "areaName": areaName,
-        "speechStartTime": speechStartTime,
-        "speechRecordurl": speechRecordurl,
-        "videoUrl": videoUrl,
-        "key": date + speechStartTime + legislatorName
-      };
-      data.push(obj);
-    }
-    return data;
   }
 
   useEffect(() => {
@@ -249,101 +184,6 @@ const App: () => Node = (props) => {
     </SafeAreaView>
   );
 };
-
-const kPrimaryColor = 'crimson';
-
-const kBackgroundColor = Platform.select({
-  ios: () => PlatformColor('systemBackground'),
-  android: () => PlatformColor('?android:attr/colorBackground'),
-  default: () => 'white'
-})();
-
-// deprecated
-const kCellBackgroundColor = Platform.select({
-  ios: () => PlatformColor('secondarySystemBackground'),
-  android: () => PlatformColor('?android:attr/colorBackgroundFloating'),
-  default: () => 'white'
-})();
-
-const kTextColor = Platform.select({
-  ios: () => PlatformColor('label'),
-  android: () => PlatformColor('?android:attr/colorPrimary'),
-  default: () => 'black'
-})();
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  list: {
-    backgroundColor: kBackgroundColor
-  },
-  item: {
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 10,
-    backgroundColor: '#E5E5EA'
-    // backgroundColor: kCellBackgroundColor
-  },
-  dateBox: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8
-  },
-  date: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: '#8E8E93',
-    textAlign: 'left'
-  },
-  time: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: '#8E8E93',
-    textAlign: 'right'
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    ...Platform.select({
-      ios: {
-        color: PlatformColor('label'),
-      },
-      /*
-      android: {
-        // FIXME: Android dark theme switching does not work;
-        // textColorPrimary does not work; default gray is okay.
-        // color: PlatformColor('?android:attr/textColorPrimary'),
-      },
-      */
-      default: { color: 'black' }
-    })
-  },
-  subtitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#C93400',
-    marginBottom: 8
-  },
-  content: {
-    fontSize: 18,
-    ...Platform.select({
-      ios: {
-        color: PlatformColor('label'),
-      },
-      /*
-      android: {
-        // FIXME: Android dark theme switching does not work;
-        // textColorPrimary does not work; default gray is okay.
-        // color: PlatformColor('?android:attr/textColorPrimary'),
-      },
-      */
-      default: { color: 'black' }
-    })
-  }
-});
 
 Navigation.registerComponent('Home', () => App);
 Navigation.registerComponent('Web', () => WebScreen);

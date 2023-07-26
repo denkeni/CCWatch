@@ -2,11 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, Alert } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-import { legislatorItems, committeeOfLegislator } from './data.js';
+import { legislatorItems, committeeOfLegislator } from '../lyData.js';
 import { Navigation } from "react-native-navigation";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { dataStringFromNetworkFetching, setCacheDataString, getCacheDataString } from './App.js';
-import { useGlobalStore } from './global.js';
+import { dataStringFromNetworkFetching, setCacheDataString, getCacheDataString } from '../networking/lyAPI.js';
+import { useGlobalStore } from '../global.js';
 
 const storeWatchingLegislators = async (value) => {
   try {
@@ -43,9 +43,6 @@ export const setTabsFromLegislators = async (value) => {
       children: [{
         component: {
           name: 'Home',
-          passProps: {
-            isAll: true
-          }
         }
       }],
       options: {
@@ -71,7 +68,6 @@ export const setTabsFromLegislators = async (value) => {
             name: 'Home',
             passProps: {
               name: legislator,
-              isAll: false
             }
           }
         }],
