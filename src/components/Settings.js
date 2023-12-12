@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-import { legislatorItems, committeeOfLegislator } from '../lyData.js';
+import { legislatorItems, committeeOfLegislator } from '../data/legislator.js';
 import { Navigation } from "react-native-navigation";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { dataStringFromNetworkFetching, setCacheDataString, getCacheDataString } from '../networking/lyAPI.js';
 import { useGlobalStore } from '../global.js';
+import contributors from '../data/contributors.js';
+import { kBackgroundColor } from '../styles/globalStyles.js';
 
 const storeWatchingLegislators = async (value) => {
   try {
@@ -163,28 +165,75 @@ export const SettingsScreen = (props) => {
   }, []);
 
   return (
-    <SectionedMultiSelect
-      items={legislatorItems}
-      IconRenderer={MaterialIcons}
-      uniqueKey="name"
-      subKey="legislators"
-      displayKey="title"
-      selectText="選擇你要監督的立委（最多 3 位）"
-      searchPlaceholderText="搜尋關鍵字"
-      confirmText="完成"
-      showCancelButton={true}
-      showDropDowns={true}
-      readOnlyHeadings={true}
-      onSelectedItemsChange={onSelectedItemsChange}
-      onConfirm={onConfirm}
-      onCancel={onCancel}
-      selectedItems={selectedItems}
-      ref={ref}
-      modalWithSafeAreaView={true}
-    />
-
+    <View style={styles.container}>
+      <SectionedMultiSelect
+        items={legislatorItems}
+        IconRenderer={MaterialIcons}
+        uniqueKey="name"
+        subKey="legislators"
+        displayKey="title"
+        selectText="選擇你要監督的立委（最多 3 位）"
+        searchPlaceholderText="搜尋關鍵字"
+        confirmText="完成"
+        showCancelButton={true}
+        showDropDowns={true}
+        readOnlyHeadings={true}
+        onSelectedItemsChange={onSelectedItemsChange}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        selectedItems={selectedItems}
+        ref={ref}
+        modalWithSafeAreaView={true}
+      />
+      <Pressable
+        style={[styles.button]}
+        onPress={() => {
+          Navigation.showModal({
+            stack: {
+              children: [{
+                component: {
+                  name: 'TextView',
+                  passProps: {
+                    text: contributors
+                  },
+                  options: {
+                    topBar: {
+                      title: {
+                        text: '特別感謝'
+                      }
+                    }
+                  }
+                }
+              }]
+            }
+          });
+        }
+      }>
+        <Text style={styles.textStyle}>特別感謝</Text>
+      </Pressable>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  button: {
+    backgroundColor: kBackgroundColor,
+    padding: 10,
+    elevation: 2,
+  },
+  textStyle: {
+    fontSize: 16,
+    color: 'gray',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    height: 50,
+    paddingVertical: 15,
+  },
+});
 
 SettingsScreen.options = {
   topBar: {

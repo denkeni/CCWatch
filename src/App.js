@@ -31,6 +31,8 @@ import { Navigation } from "react-native-navigation";
 import { SettingsScreen, setTabsFromLegislators } from './components/Settings.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WebScreen from './components/Webview.js';
+import TextViewScreen from './components/TextView.js';
+
 import styles from './styles/meetingListStyles.js';
 import {
   kPrimaryColor,
@@ -188,6 +190,7 @@ const App: () => Node = (props) => {
 Navigation.registerComponent('Home', () => App);
 Navigation.registerComponent('Web', () => WebScreen);
 Navigation.registerComponent('Settings', () => SettingsScreen);
+Navigation.registerComponent('TextView', () => TextViewScreen);
 
 Navigation.setDefaultOptions({
   statusBar: {
