@@ -28,24 +28,24 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import { Navigation } from "react-native-navigation";
-import { SettingsScreen, setTabsFromLegislators } from './src/components/Settings.js';
+import { SettingsScreen, setTabsFromLegislators } from './components/Settings.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import WebScreen from './src/components/Webview.js';
-import styles from './src/styles/meetingListStyles.js';
+import WebScreen from './components/Webview.js';
+import styles from './styles/meetingListStyles.js';
 import {
   kPrimaryColor,
   kBackgroundColor,
   kCellBackgroundColor,
   kTextColor,
-} from './src/styles/globalStyles.js';
+} from './styles/globalStyles.js';
 
 import { observer } from 'mobx-react-lite';
-import { useGlobalStore } from './src/global.js';
+import { useGlobalStore } from './global.js';
 import {
   getWatchingLegislators,
   dataStringFromNetworkFetching,
   parsedJSONData,
-} from './src/networking/lyAPI.js';
+} from './networking/lyAPI.js';
 
 const MeetingItem = ({ date, time, title, subtitle, content, videoUrl, homeComponentId }) => (
   <TouchableOpacity
