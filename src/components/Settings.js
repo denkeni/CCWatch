@@ -114,8 +114,13 @@ export const setTabsFromLegislators = async (value) => {
   const newRoot = {
     root: {
       bottomTabs: {
-        children: tabs
-      }
+        children: tabs,
+        options: {
+          hardwareBackButton: {
+            bottomTabsOnPress: 'previous',
+          },
+        },
+      },
     }
   };
   Navigation.setRoot(newRoot);
