@@ -116,7 +116,7 @@ export const legislatorItems = [
     title: '彰化縣', name: '彰化縣',
     legislators: [
       { title: '陳秀寳：第一選舉區（伸港鄉、線西鄉、和美鎮、鹿港鎮、福興鄉、秀水鄉）', name: '陳秀寳' },
-      { title: '陳歐珀：第二選舉區（彰化市、花壇鄉、芬園鄉）', name: '陳歐珀' },
+      { title: '黃秀芳：第二選舉區（彰化市、花壇鄉、芬園鄉）', name: '黃秀芳' },
       { title: '謝衣鳯：第三選舉區（芳苑鄉、二林鎮、埔鹽鄉、溪湖鎮、埔心鄉、大城鄉、竹塘鄉、埤頭鄉、北斗鎮、溪州鄉）', name: '謝衣鳯' },
       { title: '陳素月：第四選舉區（大村鄉、員林市、永靖鄉、社頭鄉、田尾鄉、田中鎮、二水鄉）', name: '陳素月' }
     ]
@@ -209,7 +209,6 @@ export const legislatorItems = [
       { title: '范雲', name: '范雲' },
       { title: '羅美玲', name: '羅美玲' },
       { title: '邱泰源', name: '邱泰源' },
-      { title: '周春米', name: '周春米' },
       { title: '游錫堃', name: '游錫堃' },
       { title: '柯建銘', name: '柯建銘' },
       { title: '莊瑞雄', name: '莊瑞雄' },
