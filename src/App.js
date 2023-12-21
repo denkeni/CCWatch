@@ -217,7 +217,10 @@ Navigation.setDefaultOptions({
   },
   bottomTabs: {
     titleDisplayMode: 'alwaysShow'
-  }
+  },
+  layout: {
+    backgroundColor: kBackgroundColor, // for iOS 12 compatibility
+  },
 });
 
 Navigation.events().registerAppLaunchedListener(() => {
