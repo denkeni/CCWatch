@@ -203,47 +203,50 @@ export const SettingsScreen = (props) => {
           },
         }}
       />
-      <Pressable
-        android_ripple={{ color: 'white' }}
-        style={({ pressed }) => [
-          {
-            ...Platform.select({
-              ios: {
-                backgroundColor: pressed ? kBackgroundColor : 'whitesmoke',
-              },
-              android: {
-                backgroundColor: 'gainsboro',
-              }
-            })
-          },
-          styles.button,
-        ]}
-        onPress={() => {
-          Navigation.showModal({
-            stack: {
-              children: [{
-                component: {
-                  name: 'TextView',
-                  passProps: {
-                    text: contributors
-                  },
-                  options: {
-                    topBar: {
-                      title: {
-                        text: '特別感謝'
+      <View style={styles.bottomContainer}>
+        <Pressable
+          android_ripple={{ color: 'white' }}
+          style={({ pressed }) => [
+            {
+              ...Platform.select({
+                ios: {
+                  backgroundColor: pressed ? kBackgroundColor : 'whitesmoke',
+                },
+                android: {
+                  backgroundColor: 'gainsboro',
+                }
+              })
+            },
+            styles.button,
+          ]}
+          onPress={() => {
+            Navigation.showModal({
+              stack: {
+                children: [{
+                  component: {
+                    name: 'TextView',
+                    passProps: {
+                      text: contributors
+                    },
+                    options: {
+                      topBar: {
+                        title: {
+                          text: '特別感謝'
+                        }
                       }
                     }
                   }
-                }
-              }]
-            }
-          });
-        }
-      }>
-        {({ pressed }) => (
-          <Text style={{...styles.textStyle, color: pressed ? 'gray' : 'black'}}>特別感謝ヽ(＾Д＾)ﾉ</Text>
-        )}
-      </Pressable>
+                }]
+              }
+            });
+          }
+        }>
+          {({ pressed }) => (
+            <Text style={{...styles.textStyle, color: pressed ? 'gray' : 'black'}}>特別感謝ヽ(＾Д＾)ﾉ</Text>
+          )}
+        </Pressable>
+        <Text style={styles.textStyle}>本專案不代表立法院官方立場</Text>
+      </View>
     </View>
   );
 };
@@ -252,6 +255,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+  },
+  bottomContainer: {
   },
   button: {
     marginHorizontal: 50,
