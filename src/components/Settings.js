@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { dataStringFromNetworkFetching, setCacheDataString, getCacheDataString } from '../networking/lyAPI.js';
 import { useGlobalStore } from '../global.js';
 import contributors from '../data/contributors.js';
-import { kBackgroundColor } from '../styles/globalStyles.js';
+import { kPrimaryColor, kBackgroundColor } from '../styles/globalStyles.js';
 
 const storeWatchingLegislators = async (value) => {
   try {
@@ -189,9 +189,35 @@ export const SettingsScreen = (props) => {
         selectedItems={selectedItems}
         ref={ref}
         modalWithSafeAreaView={true}
+        colors={{
+          primary: kPrimaryColor,
+          success: kPrimaryColor,
+        }}
+        styles={{
+          selectToggle: {
+            backgroundColor: 'gainsboro',
+            padding: 20,
+            marginHorizontal: 10,
+            marginVertical: 20,
+            borderRadius: 10,
+          },
+        }}
       />
       <Pressable
-        style={[styles.button]}
+        android_ripple={{ color: 'white' }}
+        style={({ pressed }) => [
+          {
+            ...Platform.select({
+              ios: {
+                backgroundColor: pressed ? kBackgroundColor : 'whitesmoke',
+              },
+              android: {
+                backgroundColor: 'gainsboro',
+              }
+            })
+          },
+          styles.button,
+        ]}
         onPress={() => {
           Navigation.showModal({
             stack: {
@@ -214,7 +240,9 @@ export const SettingsScreen = (props) => {
           });
         }
       }>
-        <Text style={styles.textStyle}>特別感謝</Text>
+        {({ pressed }) => (
+          <Text style={{...styles.textStyle, color: pressed ? 'gray' : 'black'}}>特別感謝ヽ(＾Д＾)ﾉ</Text>
+        )}
       </Pressable>
     </View>
   );
@@ -226,14 +254,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    backgroundColor: kBackgroundColor,
-    padding: 10,
+    marginHorizontal: 50,
+    marginVertical: 10,
     elevation: 2,
+    borderRadius: 10,
   },
   textStyle: {
     fontSize: 16,
-    color: 'gray',
-    fontWeight: 'bold',
     textAlign: 'center',
     height: 50,
     paddingVertical: 15,
