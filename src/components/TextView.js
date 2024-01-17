@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Navigation } from "react-native-navigation";
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
+import { kBackgroundColor } from '../styles/globalStyles.js';
 
 const TextView = (props) => {
   useEffect(() => {
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: kBackgroundColor,
   },
   scrollContainer: {
     flexGrow: 1,
