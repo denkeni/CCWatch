@@ -46,6 +46,8 @@ const WebScreen = (props) => {
     <WebView source={{ uri: props.videoUrl }}
              // See: https://github.com/react-native-webview/react-native-webview/issues/1035#issuecomment-956006729
              mediaPlaybackRequiresUserAction={true}
+             allowsFullscreenVideo={true}
+             allowsBackForwardNavigationGestures={true}
              decelerationRate={0.998} />
   );
 };
