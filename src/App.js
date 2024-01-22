@@ -28,7 +28,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import { Navigation } from "react-native-navigation";
-import { SettingsScreen, setTabsFromLegislators } from './components/Settings.js';
+import { SettingsScreen } from './components/Settings.js';
+import { setTabsFromLegislators } from './components/SelectButton.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WebScreen from './components/Webview.js';
 import TextViewScreen from './components/TextView.js';
