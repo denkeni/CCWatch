@@ -187,7 +187,7 @@ export const legislatorItems = [
   {
     title: '平地原住民', name: '平地原住民',
     legislators: [
-      { title: '鄭天財 Sra Kacaw', name: '鄭天財 Sra Kacaw' },
+      { title: '鄭天財Sra Kacaw', name: '鄭天財Sra Kacaw' },
       { title: '陳瑩', name: '陳瑩' },
       { title: '黃仁', name: '黃仁' }
     ]
