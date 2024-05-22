@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { Share, Platform } from 'react-native';
+import { Linking, Share, Platform } from 'react-native';
 import { Navigation } from "react-native-navigation";
 import { WebView } from 'react-native-webview';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // See: https://github.com/wix/react-native-navigation/issues/5409
@@ -21,20 +22,39 @@ const WebScreen = (props) => {
             text: '分享',
             // TODO: icon
           },
+          {
+            id: 'law-diff',
+            text: '法案對照',
+          },
         ],
       },
     });
   }, []);
 
-  const navigationButtonEventListener = Navigation.events().registerNavigationButtonPressedListener(({ buttonId }) => {
-    if (buttonId !== props.videoUrl) {
-      return;
+  const navigationButtonEventListener = Navigation.events().registerNavigationButtonPressedListener(async ({ buttonId }) => {
+    switch (buttonId) {
+      case props.videoUrl:
+        Share.share({
+          message: Platform.OS === 'android' ? props.videoUrl : null,
+          url: props.videoUrl
+        });
+        break;
+      case 'law-diff':
+        try {
+          const url = 'https://openfunltd.github.io/law-diff/';
+          if (await InAppBrowser.isAvailable()) {
+            const result = await InAppBrowser.open(url, {
+            })
+          } else {
+            Linking.openURL(url);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+      }
     }
-    Share.share({
-      message: Platform.OS === 'android' ? props.videoUrl : null,
-      url: props.videoUrl
-    });
-  });
+  );
 
   useEffect(() => {
     return () => {
