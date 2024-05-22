@@ -5,6 +5,9 @@
       location = "group:CCWatch.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:PrivacyInfo.xcprivacy">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
