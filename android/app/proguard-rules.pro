@@ -8,3 +8,11 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+
+# Fix crash for react-native-inappbrowser only in release version
+# See: https://github.com/proyecto26/react-native-inappbrowser/issues/174
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+  @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
