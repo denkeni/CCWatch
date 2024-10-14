@@ -344,7 +344,7 @@ PODS:
   - React-jsinspector (0.72.14)
   - React-logger (0.72.14):
     - glog
-  - react-native-webview (13.10.2):
+  - react-native-webview (13.12.3):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - React-NativeModulesApple (0.72.14):
@@ -452,24 +452,24 @@ PODS:
     - React-jsi (= 0.72.14)
     - React-logger (= 0.72.14)
     - React-perflogger (= 0.72.14)
-  - ReactNativeNavigation (7.39.2):
+  - ReactNativeNavigation (7.40.1):
     - HMSegmentedControl
     - React-Core
     - React-CoreModules
     - React-RCTImage
     - React-RCTText
-    - ReactNativeNavigation/Core (= 7.39.2)
-  - ReactNativeNavigation/Core (7.39.2):
+    - ReactNativeNavigation/Core (= 7.40.1)
+  - ReactNativeNavigation/Core (7.40.1):
     - HMSegmentedControl
     - React-Core
     - React-CoreModules
     - React-RCTImage
     - React-RCTText
-  - RNCAsyncStorage (1.23.1):
+  - RNCAsyncStorage (1.24.0):
     - React-Core
   - RNInAppBrowser (3.7.0):
     - React-Core
-  - RNVectorIcons (10.1.0):
+  - RNVectorIcons (10.2.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - SocketRocket (0.6.1)
@@ -684,7 +684,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: a05da2c08edb1314cc51671c795fd4ed8440c335
   React-jsinspector: 275d9f80210f15f0af9a4b7fd5683fab9738e28e
   React-logger: 8da4802de77a0eb62512396ad6bb1769904c2f0e
-  react-native-webview: fa100d53bae3a3bc4b5bda6b5d78177b9590bc91
+  react-native-webview: 670ee27ecc5d11a56e82ce6f03182896b368d37c
   React-NativeModulesApple: 9b58b8f5c1d8ea68d0a63f569a9e786d01281ea6
   React-perflogger: daabc494c6328efc1784a4b49b8b74fca305d11c
   React-RCTActionSheet: 0e0e64a7cf6c07f1de73d1f0a92d26a70262b256
@@ -702,10 +702,10 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 5b3b73748021c7349f06fcd24181df17860b8fb6
   React-utils: 22a77b05da25ce49c744faa82e73856dcae1734e
   ReactCommon: 07937a01c967f2023d6f2d07114315f099b4b436
-  ReactNativeNavigation: 4d9e6883ecd61e68829403d65083709d9344e7e3
-  RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
+  ReactNativeNavigation: 84cfcceb62947491beda20b96c5999c15ff5b959
+  RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
   RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
-  RNVectorIcons: 32462e7c7e58fe457474fc79c4d7de3f0ef08d70
+  RNVectorIcons: 4785c0f1161b4fdc691c802c989248326d0b005d
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: c32e0be1a17f8f1f0e633a3122f7666441f52c82
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
