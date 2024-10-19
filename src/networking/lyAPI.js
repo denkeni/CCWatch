@@ -41,7 +41,10 @@ export const parsedJSONData = (dataString, filteredName) => {
   const areaNameIndex = keyArray.indexOf('areaName');
   const speechStartTimeIndex = keyArray.indexOf('speechStartTime');
   const speechRecordUrlIndex = keyArray.indexOf('speechRecordUrl');
-  const videoUrlIndex = keyArray.indexOf('videoURL');
+  let videoUrlIndex = keyArray.indexOf('videoUrl');
+  if (videoUrlIndex === -1) {
+    videoUrlIndex = keyArray.indexOf('videoURL');
+  }
 
   let data = Array();
   // Start from latest; skip index 0 (key array)
