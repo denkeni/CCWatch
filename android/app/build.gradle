@@ -75,8 +75,8 @@ android {
         applicationId "com.ccwatch"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 26
-        versionName "1.8.1"
+        versionCode 27
+        versionName "1.9"
     }
     splits {
         abi {
