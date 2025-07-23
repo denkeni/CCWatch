@@ -1,7 +1,8 @@
 #import <React/RCTBridgeDelegate.h>
 #import <UIKit/UIKit.h>
+#import "RNNAppDelegate.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate>
+@interface AppDelegate : RNNAppDelegate <UIApplicationDelegate, RCTBridgeDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
 
