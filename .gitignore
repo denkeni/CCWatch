@@ -21,6 +21,13 @@ DerivedData
 *.ipa
 *.xcuserstate
 
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json
+
 # Android/IntelliJ
 #
 build/

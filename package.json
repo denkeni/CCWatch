@@ -14,14 +14,14 @@
     "mobx": "^6.13.7",
     "mobx-react-lite": "^4.0.7",
     "papaparse": "^5.4.1",
-    "react": "19.1.0",
-    "react-native": "0.77.3",
+    "react": "18.3.1",
+    "react-native": "0.77.2",
     "react-native-inappbrowser-reborn": "3.7.0",
-    "react-native-navigation": "^8.1.1",
+    "react-native-navigation": "^8.3.2",
     "react-native-sectioned-multi-select": "^0.10.0",
     "react-native-svg-transformer": "^1.5.1",
-    "react-native-vector-icons": "^10.1.0",
-    "react-native-webview": "^13.10.2"
+    "react-native-vector-icons": "^10.3.0",
+    "react-native-webview": "^13.16.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
