@@ -215,6 +215,7 @@ export const legislatorItems = [
       { title: '林楚茵', name: '林楚茵' },
       { title: '郭昱晴', name: '郭昱晴' },
       { title: '王正旭', name: '王正旭' },
+      { title: '王義川', name: '王義川' },
       { title: '陳培瑜', name: '陳培瑜' },
     ]
   },
@@ -242,11 +243,11 @@ export const legislatorItems = [
       { title: '黃珊珊', name: '黃珊珊' },
       { title: '黃國昌', name: '黃國昌' },
       { title: '陳昭姿', name: '陳昭姿' },
-      { title: '吳春城', name: '吳春城' },
       { title: '麥玉珍', name: '麥玉珍' },
       { title: '林國成', name: '林國成' },
       { title: '林憶君', name: '林憶君' },
       { title: '張啓楷', name: '張啓楷' },
+      { title: '劉書彬', name: '劉書彬' },
     ]
   },
 ];
