@@ -59,7 +59,8 @@ export const SettingsScreen = (props) => {
                         title: {
                           text: '特別感謝'
                         }
-                      }
+                      },
+                      modalPresentationStyle: 'pageSheet',
                     }
                   }
                 }]
