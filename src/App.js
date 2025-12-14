@@ -21,6 +21,7 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
+  Platform,
 } from 'react-native';
 
 import {
@@ -44,6 +45,7 @@ import {
 
 import { observer } from 'mobx-react-lite';
 import { useGlobalStore } from './global.js';
+import SearchComponentAndroid from './components/SearchComponentAndroid.js';
 import {
   getWatchingLegislators,
   dataStringFromNetworkFetching,
@@ -115,6 +117,8 @@ const App: () => Node = (props) => {
   const [isLoading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
   const homeComponentId = props.componentId;
 
   const onRefresh = React.useCallback(() => {
@@ -166,12 +170,59 @@ const App: () => Node = (props) => {
     });
   }, []);
 
+  useEffect(() => {
+    const filtered = data.filter((item) => {
+      if (searchQuery === '') {
+        return true;
+      }
+      const itemData = `${item.date} ${item.legislatorName} ${item.typeName} ${item.content}`;
+      const queryData = searchQuery;
+      return itemData.indexOf(queryData) > -1;
+    });
+    setFilteredData(filtered);
+  }, [data, searchQuery]);
+
+  useEffect(() => {
+    if (Platform.OS === 'ios') {
+      Navigation.mergeOptions(props.componentId, {
+        topBar: {
+          searchBar: {
+            visible: true,
+            placeholder: '搜尋關鍵字',
+          }
+        }
+      });
+
+      const listener = Navigation.events().registerSearchBarUpdatedListener(
+        ({ componentId, text, isFocused }) => {
+          if (componentId === props.componentId && isFocused) {
+            setSearchQuery(text);
+          }
+        }
+      );
+      return () => listener.remove();
+    } else if (Platform.OS === 'android') {
+      Navigation.mergeOptions(props.componentId, {
+        topBar: {
+          title: {
+            component: {
+              name: 'SearchAndroid',
+              passProps: {
+                onSearch: (text) => setSearchQuery(text)
+              }
+            }
+          }
+        }
+      });
+    }
+  }, [props.componentId]);
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       {isLoading ? <ActivityIndicator style={{marginTop:20}}/> : (
         <FlatList
-          data={data}
+          data={filteredData}
           renderItem={renderItem}
           keyExtractor={item => item.key}
           style={styles.list}
@@ -192,6 +243,7 @@ Navigation.registerComponent('Home', () => App);
 Navigation.registerComponent('Web', () => WebScreen);
 Navigation.registerComponent('Settings', () => SettingsScreen);
 Navigation.registerComponent('TextView', () => TextViewScreen);
+Navigation.registerComponent('SearchAndroid', () => SearchComponentAndroid);
 
 Navigation.setDefaultOptions({
   statusBar: {
