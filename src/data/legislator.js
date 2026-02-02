@@ -240,14 +240,14 @@ export const legislatorItems = [
   {
     title: '台灣民眾黨（不分區）', name: '台灣民眾黨（不分區）',
     legislators: [
-      { title: '黃珊珊', name: '黃珊珊' },
-      { title: '黃國昌', name: '黃國昌' },
       { title: '陳昭姿', name: '陳昭姿' },
-      { title: '麥玉珍', name: '麥玉珍' },
-      { title: '林國成', name: '林國成' },
-      { title: '林憶君', name: '林憶君' },
-      { title: '張啓楷', name: '張啓楷' },
       { title: '劉書彬', name: '劉書彬' },
+      { title: '洪毓祥', name: '洪毓祥' },
+      { title: '蔡春綢', name: '蔡春綢' },
+      { title: '王安祥', name: '王安祥' },
+      { title: '邱慧洳', name: '邱慧洳' },
+      { title: '陳清龍', name: '陳清龍' },
+      { title: '李貞秀', name: '李貞秀' },
     ]
   },
 ];

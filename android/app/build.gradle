@@ -100,8 +100,8 @@ android {
         applicationId "com.ccwatch"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 31
-        versionName "2.0"
+        versionCode 32
+        versionName "2.1"
     }
     def pass = getPassword("Denken Chen","android_keystore")
     signingConfigs {
