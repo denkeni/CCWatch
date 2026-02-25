@@ -206,7 +206,6 @@ export const legislatorItems = [
       { title: '林月琴', name: '林月琴' },
       { title: '沈伯洋', name: '沈伯洋' },
       { title: '張雅琳', name: '張雅琳' },
-      { title: '洪申翰', name: '洪申翰' },
       { title: '羅美玲', name: '羅美玲' },
       { title: '范雲', name: '范雲' },
       { title: '柯建銘', name: '柯建銘' },
