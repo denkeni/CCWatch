@@ -48,7 +48,6 @@ PODS:
     - React-RCTText (= 0.77.2)
     - React-RCTVibration (= 0.77.2)
   - React-callinvoker (0.77.2)
-  - React-Codegen (0.1.0)
   - React-Core (0.77.2):
     - glog
     - hermes-engine
@@ -1212,7 +1211,7 @@ PODS:
     - React-jsiexecutor
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
-  - react-native-webview (13.16.0):
+  - react-native-webview (13.17.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1522,19 +1521,15 @@ PODS:
     - React-logger (= 0.77.2)
     - React-perflogger (= 0.77.2)
     - React-utils (= 0.77.2)
-  - ReactNativeNavigation (8.3.2):
+  - ReactNativeNavigation (8.8.11):
     - DoubleConversion
     - glog
     - hermes-engine
     - HMSegmentedControl
-    - RCT-Folly
+    - RCT-Folly (= 2024.11.18.00)
     - RCTRequired
     - RCTTypeSafety
-    - React
-    - React-Codegen
     - React-Core
-    - React-CoreModules
-    - React-cxxreact
     - React-debug
     - React-Fabric
     - React-featureflags
@@ -1542,48 +1537,9 @@ PODS:
     - React-ImageManager
     - React-NativeModulesApple
     - React-RCTFabric
-    - React-RCTImage
-    - React-RCTText
     - React-rendererdebug
-    - React-rncore
-    - React-RuntimeCore
-    - React-runtimeexecutor
     - React-utils
     - ReactCodegen
-    - ReactCommon
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - ReactNativeNavigation/Core (= 8.3.2)
-    - Yoga
-  - ReactNativeNavigation/Core (8.3.2):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - HMSegmentedControl
-    - RCT-Folly
-    - RCTRequired
-    - RCTTypeSafety
-    - React
-    - React-Codegen
-    - React-Core
-    - React-CoreModules
-    - React-cxxreact
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-RCTImage
-    - React-RCTText
-    - React-rendererdebug
-    - React-rncore
-    - React-RuntimeCore
-    - React-runtimeexecutor
-    - React-utils
-    - ReactCodegen
-    - ReactCommon
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
@@ -1712,7 +1668,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - HMSegmentedControl
-    - React-Codegen
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -1875,7 +1830,6 @@ SPEC CHECKSUMS:
   RCTTypeSafety: 5e57924492a5e0a762654f814dd018953274eca9
   React: 53c9bd6f974c5dd019ee466e46477eb679149c38
   React-callinvoker: d6484472c1c742917b51338525336d6a74ab8a9f
-  React-Codegen: 4b8b4817cea7a54b83851d4c1f91f79aa73de30a
   React-Core: 4ddb741e08144902ce4e0e66b7c67c6f2dc5bfc7
   React-CoreModules: 0a31ca662ac169edd0c210efd324e19b3012d7ed
   React-cxxreact: f8ecc64ebf8b795c550ae8b65ba4908ffe7350d0
@@ -1899,7 +1853,7 @@ SPEC CHECKSUMS:
   React-logger: 592d84bed2e04db64c0b3725f9970b437473f3d3
   React-Mapbuffer: 595c88852c1dcb1c4faafad88148de8690a70aae
   React-microtasksnativemodule: b56986b155ae82e9bcb1d1c0ca8726bac52dbb6e
-  react-native-webview: b729d1bcf8fbd141237355dcfd6bb65b9a1d3b1a
+  react-native-webview: ca5186912572716229081368c027ea794d95a402
   React-nativeconfig: ecf4dc92c40b97e2b3f0c619938f78bfd6507b08
   React-NativeModulesApple: f457bbfb30fb3bc41979b1a87b99d292d7340d39
   React-perflogger: 1111b5feb064c4cc83df88fb403efda54b387951
@@ -1929,7 +1883,7 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: f334cebc0beed0a72490492e978007082c03d533
   ReactCodegen: 6f764a42662ad6379fd3fbb9c09baff6e4797b20
   ReactCommon: 7763e59534d58e15f8f22121cdfe319040e08888
-  ReactNativeNavigation: a23e9d05ae959ab68f3c01188ee51ba7d415a21f
+  ReactNativeNavigation: 0ffff62b4a2ed986cf79556f89bd4f81751afae3
   RNCAsyncStorage: 79cfba789fca205b204f3ce7948b874500129eb4
   RNInAppBrowser: 6d3eb68d471b9834335c664704719b8be1bfdb20
   RNVectorIcons: 0e915baaf807d5dfed506a14f23a29476c1f07f9
