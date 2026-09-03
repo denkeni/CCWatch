@@ -13,7 +13,6 @@ import {
   Alert,
   FlatList,
   RefreshControl,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -218,7 +217,7 @@ const App: () => Node = (props) => {
   }, [props.componentId]);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <View style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       {isLoading ? <ActivityIndicator style={{marginTop:20}}/> : (
         <FlatList
@@ -226,6 +225,7 @@ const App: () => Node = (props) => {
           renderItem={renderItem}
           keyExtractor={item => item.key}
           style={styles.list}
+          contentInsetAdjustmentBehavior="automatic"
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -235,7 +235,7 @@ const App: () => Node = (props) => {
           ListEmptyComponent={ListEmptyView}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

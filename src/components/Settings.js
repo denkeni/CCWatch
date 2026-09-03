@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Platform, SafeAreaView } from 'react-native';
 import { Navigation } from "react-native-navigation";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { SelectButton } from './SelectButton.js';
@@ -27,7 +27,7 @@ export const SettingsScreen = (props) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <SelectButton />
       <View style={styles.bottomContainer}>
         <Pressable
@@ -74,7 +74,7 @@ export const SettingsScreen = (props) => {
         </Pressable>
         <Text style={styles.textStyle}>本專案不代表立法院官方立場</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: kBackgroundColor,
   },
   bottomContainer: {
+    paddingBottom: 8,
   },
   button: {
     marginHorizontal: 50,
